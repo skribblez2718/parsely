@@ -40,6 +40,8 @@ def get_parameterized_path_query(path_query):
             parameterized_path = get_parameterized_path(path=path)
             parameterized_query = get_parameterized_query(query=query)
             path_query = f"{parameterized_path}?{parameterized_query}"
+        else:
+            path_query = get_parameterized_path(path=path_query)
         return path_query
     except Exception as e:
         logger.error(f"{e} in get_parameterized_path_query")
@@ -65,10 +67,10 @@ def get_parameterized_query(query):
 def get_parameterized_path(path):
     try:
         path_parts = path.split("/")
-        for path_part in path_parts:
+        for i, path_part in enumerate(path_parts):
             part = path_part.rstrip("/")
             if is_identifier(part=part):
-                path_part = "{IDENTIFIER}"
+                path_parts[i] = "{IDENTIFIER}"
         return "/".join(path_parts)
     except Exception as e:
         logger.error(f"{e} in get_parameterized_path")

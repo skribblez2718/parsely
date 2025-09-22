@@ -57,8 +57,9 @@ def is_hex_identifier(part):
 
 def is_numeric_identifier(part):
     try:
-        numeric_pattern = r"^[0-9]{6,32}$"
-        return bool(re.match(numeric_pattern, part))
+        numeric_pattern = r"^[0-9]{1,32}$"
+        numeric_with_dash_pattern = r"^[0-9]+-[0-9]+$"
+        return bool(re.match(numeric_pattern, part)) or bool(re.match(numeric_with_dash_pattern, part))
     except Exception as e:
         logger.error(f"{e} in is_numeric_identifier")
         return False
